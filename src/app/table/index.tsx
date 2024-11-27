@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils";
 import {
     ColumnDef,
-    ColumnFiltersState,
     SortingState,
     VisibilityState,
     flexRender,
@@ -40,8 +39,7 @@ export function DataTable<_, TValue>({
     const [rowSelection, setRowSelection] = React.useState({});
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({});
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
+
     const [sorting, setSorting] = React.useState<SortingState>([]);
 
     const table = useReactTable({
@@ -51,7 +49,6 @@ export function DataTable<_, TValue>({
             sorting,
             columnVisibility,
             rowSelection,
-            columnFilters,
             columnPinning: {
                 left: ["select", "arrow"],
             },
@@ -59,7 +56,6 @@ export function DataTable<_, TValue>({
         enableRowSelection: true,
         onRowSelectionChange: setRowSelection,
         onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
         onColumnVisibilityChange: setColumnVisibility,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
