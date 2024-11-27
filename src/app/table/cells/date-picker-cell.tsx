@@ -59,7 +59,9 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
         ? parseISO(order.sales_order?.production_date)
         : undefined;
 
-    const [date, setDate] = useState<Date>(productionDate || new Date());
+    const [date, setDate] = useState<Date | undefined>(
+        productionDate || new Date()
+    );
 
     return false ? (
         <Button
@@ -70,7 +72,7 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
             )}>
             <CalendarIcon className="mr-2 size-3 flex-shrink-0" />
 
-            {date ? format(date, "MM/dd/yy EEE") : <span>Not selected</span>}
+            {date ? format(date!, "MM/dd/yy EEE") : <span>Not selected</span>}
         </Button>
     ) : (
         <Popover>
@@ -79,10 +81,10 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
                     disabled={order?.completed}
                     variant="outline"
                     className={cn(
-                        "w-full justify-start px-2 text-left font-normal",
+                        "w-full justify-start px-1.5 text-left font-normal",
                         !date && "text-muted-foreground"
                     )}>
-                    <CalendarIcon className="mr-1 size-3 flex-shrink-0" />
+                    <CalendarIcon className=" !size-3 flex-shrink-0" />
                     {date ? (
                         format(date, "dd.MM.yyyy EEE")
                     ) : (
@@ -91,13 +93,15 @@ export const DatePickerCell: React.FC<DatePickerCellProps> = ({ order }) => {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-                <Calendar mode="single" selected={date} initialFocus />
+                <Calendar
+                    onSelect={setDate}
+                    mode="single"
+                    selected={date}
+                    initialFocus
+                />
                 <div className="flex w-full items-center justify-start gap-x-3 p-3 pt-0">
                     <Button className="flex-1">Set Date</Button>
-                    <Button
-                        onClick={close}
-                        className="flex-1"
-                        variant="secondary">
+                    <Button className="flex-1" variant="secondary">
                         Cancel
                     </Button>
                     <TooltipProvider>

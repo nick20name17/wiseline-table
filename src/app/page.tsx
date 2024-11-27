@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { toast } from "sonner";
 import { OrdersData } from "./ebms.types";
 import { DataTable } from "./table";
 import { columns } from "./table/columns";
@@ -3450,12 +3451,13 @@ export default function DemoPage() {
     const deleteFirstOrder = () => {
         if (orders.length === 0) return;
         setOrders(orders.slice(1));
+        toast.success(`Order ${orders[0].id} moved to completed`);
     };
 
     return (
         <div className="container mx-auto py-10">
             <Button className="mb-10" onClick={deleteFirstOrder}>
-                Animate First
+                Move to completed
             </Button>
             <DataTable columns={columns} data={orders} />
         </div>
